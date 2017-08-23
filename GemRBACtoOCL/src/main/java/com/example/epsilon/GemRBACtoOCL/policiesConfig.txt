@@ -1,0 +1,22 @@
+
+
+   id: PL1; 
+   type: PrereqRole;
+   roles: trainee, participant;
+ 
+ 
+ 
+   id: enab; 
+   type: Precedence;
+   roles: admin, participant;
+ 
+   id: DSoDHistory;  
+type: DSoDhis;   
+   roles: trainee,  r2;
+  operations:  create,  delete;     
+    
+    
+ 
+   id: BoD;
+   type: subject-BoD;
+   permissions: p1, p2,   p3;

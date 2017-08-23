@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GemRBACCTX:Root xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:GemRBACCTX="http://www.xtext.org/GemRBACCTX" xsi:schemaLocation="http://www.xtext.org/GemRBACCTX ../Metamodels/GemRBACCTX.ecore">
+  <obj idObject="o1" permissions="//@p.2 //@p.0"/>
+  <obj idObject="o2" permissions="//@p.1"/>
+  <obj idObject="o3"/>
+  <op idOperation="op1" permissions="//@p.2"/>
+  <op idOperation="op2" permissions="//@p.2"/>
+  <c idContext="c1">
+    <location xsi:type="GemRBACCTX:Point" idLocation="posU1"/>
+  </c>
+  <p idPermission="p3" object="o1" juniors="//@p.1 //@p.2"/>
+  <p idPermission="p2" roles="//@r.2" object="o2" seniors="//@p.0"/>
+  <p idPermission="p1" roles="//@r.0 //@r.1" operations="//@op.0 //@op.1" object="o1" seniors="//@p.0"/>
+  <r idRole="r1" users="//@u.0" permissions="//@p.2" juniors="//@r.1 //@r.2"/>
+  <r idRole="r2" users="//@u.0" permissions="//@p.2" seniors="//@r.0"/>
+  <r idRole="r3" users="//@u.0" permissions="//@p.1" seniors="//@r.0"/>
+  <u idUser="u1" roles="//@r.0 //@r.1 //@r.2" userLocation="//@c.0"/>
+  <currentDay/>
+  <currentT/>
+</GemRBACCTX:Root>

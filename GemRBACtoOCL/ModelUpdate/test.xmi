@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gemRBAC:Root
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gemRBAC="http://www.example.org/gemRBAC"
+    xsi:schemaLocation="http://www.example.org/gemRBAC ../model/gemrbac.ecore">
+  <sys businessTaskList="//@op.2 //@op.1"
+      boundedPermissions="//@p.0"
+      currentT="//@currentT"
+      currentDay="//@currentDay"/>
+  <obj idObject="obj1"
+      permissions="//@p.1 //@p.0"
+      logObject="//@log.1"/>
+  <op idOperation="op1"
+      permissions="//@p.1"
+      logOperation="//@log.1"/>
+  <op idOperation="op2"
+      permissions="//@p.1 //@p.0"/>
+  <op idOperation="op3"
+      permissions="//@p.1"/>
+  <c p1="//@p.1 //@p.0"
+      r1="//@r.2 //@r.1"
+      r2="//@r.3 //@r.2 //@r.4 //@r.1"
+      idContext="c1">
+    <timeexpression
+        idTimeExpr="te1"/>
+    <location
+        xsi:type="gemRBAC:Circle"
+        idLocation="circle5">
+      <center
+          idLocation="point5"/>
+    </location>
+  </c>
+  <c p1="//@p.1 //@p.0"
+      p2="//@p.0 //@p.1"
+      r1="//@r.4 //@r.1 //@r.3"
+      r2="//@r.3 //@r.2 //@r.4 //@r.1"
+      idContext="c2">
+    <timeexpression
+        idTimeExpr="te3">
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti9">
+        <start
+            idAbsoluteTE="tp10"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti11">
+        <start
+            idAbsoluteTE="tp8"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti8">
+        <start
+            idAbsoluteTE="tp6"/>
+      </absolute>
+      <relative
+          xsi:type="gemRBAC:DayOfWeek"
+          idRelativeTE="dayW2"/>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti5">
+        <start
+            xsi:type="gemRBAC:MonthOfYear"
+            idRelativeTE="month6"/>
+        <end
+            xsi:type="gemRBAC:HourOfDay"
+            idRelativeTE="hour1"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:DayOfMonth"
+          idRelativeTE="day1"/>
+    </timeexpression>
+    <timeexpression
+        idTimeExpr="te2">
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti3">
+        <start
+            idAbsoluteTE="tp14"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimePoint"
+          idAbsoluteTE="tp9"/>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti12">
+        <start
+            idAbsoluteTE="tp12"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimePoint"
+          idAbsoluteTE="tp11"/>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti4">
+        <start
+            idAbsoluteTE="tp16"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti10">
+        <start
+            idAbsoluteTE="tp3"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimePoint"
+          idAbsoluteTE="tp4"/>
+      <relative
+          xsi:type="gemRBAC:DayOfMonth"
+          idRelativeTE="day6"/>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti7">
+        <start
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW8"/>
+        <end
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW5"/>
+      </relative>
+    </timeexpression>
+    <timeexpression
+        idTimeExpr="te4">
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti2">
+        <start
+            idAbsoluteTE="tp1"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti6">
+        <start
+            idAbsoluteTE="tp13"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti7">
+        <start
+            idAbsoluteTE="tp5"/>
+      </absolute>
+      <absolute
+          xsi:type="gemRBAC:TimeInterval"
+          idAbsoluteTE="ti1">
+        <start
+            idAbsoluteTE="tp17"/>
+      </absolute>
+      <relative
+          xsi:type="gemRBAC:MonthOfYear"
+          idRelativeTE="month2"/>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti8">
+        <start
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW6"/>
+        <end
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW9"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:MonthOfYear"
+          idRelativeTE="month3"/>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti6">
+        <start
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW1"/>
+        <end
+            xsi:type="gemRBAC:HourOfDay"
+            idRelativeTE="hour3"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti2">
+        <start
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW10"/>
+        <end
+            xsi:type="gemRBAC:DayOfMonth"
+            idRelativeTE="day7"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti4">
+        <start
+            xsi:type="gemRBAC:HourOfDay"
+            idRelativeTE="hour4"/>
+        <end
+            xsi:type="gemRBAC:MonthOfYear"
+            idRelativeTE="month4"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti10">
+        <start
+            xsi:type="gemRBAC:MonthOfYear"
+            idRelativeTE="month5"/>
+        <end
+            xsi:type="gemRBAC:DayOfMonth"
+            idRelativeTE="day2"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:DayOfMonth"
+          idRelativeTE="day4"/>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti1">
+        <start
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW11"/>
+        <end
+            xsi:type="gemRBAC:DayOfMonth"
+            idRelativeTE="day8"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:DayOfWeek"
+          idRelativeTE="dayW3"/>
+      <relative
+          xsi:type="gemRBAC:PeriodicTime"
+          idRelativeTE="periodicT1"/>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti9">
+        <start
+            xsi:type="gemRBAC:HourOfDay"
+            idRelativeTE="hour2"/>
+        <end
+            xsi:type="gemRBAC:DayOfMonth"
+            idRelativeTE="day5"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:MonthOfYear"
+          idRelativeTE="month1"/>
+      <relative
+          xsi:type="gemRBAC:RelativeTimeInterval"
+          idRelativeTE="relativeti3">
+        <start
+            xsi:type="gemRBAC:DayOfWeek"
+            idRelativeTE="dayW4"/>
+        <end
+            xsi:type="gemRBAC:HourOfDay"
+            idRelativeTE="hour5"/>
+      </relative>
+      <relative
+          xsi:type="gemRBAC:DayOfMonth"
+          idRelativeTE="day3"/>
+    </timeexpression>
+    <location
+        xsi:type="gemRBAC:Circle"
+        idLocation="circle4">
+      <center
+          idLocation="point11"/>
+    </location>
+    <location
+        xsi:type="gemRBAC:Polygon"
+        idLocation="polygon3">
+      <segment
+          idLocation="polyline5">
+        <start
+            idLocation="point31"/>
+        <end
+            idLocation="point32"/>
+      </segment>
+      <segment
+          idLocation="polyline6">
+        <start
+            idLocation="point33"/>
+        <end
+            idLocation="point34"/>
+      </segment>
+      <segment
+          idLocation="polyline7">
+        <start
+            idLocation="point35"/>
+        <end
+            idLocation="point36"/>
+      </segment>
+    </location>
+  </c>
+  <c p1="//@p.0"
+      p2="//@p.0"
+      r1="//@r.4 //@r.1 //@r.3"
+      r2="//@r.2 //@r.0 //@r.1"
+      idContext="c3">
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point6"/>
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point12"/>
+    <location
+        xsi:type="gemRBAC:Polygon"
+        idLocation="polygon1">
+      <segment
+          idLocation="polyline8">
+        <start
+            idLocation="point19"/>
+        <end
+            idLocation="point20"/>
+      </segment>
+      <segment
+          idLocation="polyline9">
+        <start
+            idLocation="point21"/>
+        <end
+            idLocation="point22"/>
+      </segment>
+      <segment
+          idLocation="polyline10">
+        <start
+            idLocation="point23"/>
+        <end
+            idLocation="point24"/>
+      </segment>
+    </location>
+    <location
+        xsi:type="gemRBAC:Polygon"
+        idLocation="polygon6">
+      <segment
+          idLocation="polyline1">
+        <start
+            idLocation="point47"/>
+        <end
+            idLocation="point4"/>
+      </segment>
+      <segment
+          idLocation="polyline3">
+        <start
+            idLocation="point48"/>
+        <end
+            idLocation="point49"/>
+      </segment>
+      <segment
+          idLocation="polyline4">
+        <start
+            idLocation="point50"/>
+        <end
+            idLocation="point51"/>
+      </segment>
+    </location>
+    <location
+        xsi:type="gemRBAC:Polygon"
+        idLocation="polygon2">
+      <segment
+          idLocation="polyline11">
+        <start
+            idLocation="point25"/>
+        <end
+            idLocation="point26"/>
+      </segment>
+      <segment
+          idLocation="polyline12">
+        <start
+            idLocation="point27"/>
+        <end
+            idLocation="point28"/>
+      </segment>
+      <segment
+          idLocation="polyline13">
+        <start
+            idLocation="point29"/>
+        <end
+            idLocation="point30"/>
+      </segment>
+    </location>
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point9"/>
+  </c>
+  <c p1="//@p.1 //@p.0"
+      r1="//@r.2 //@r.4"
+      r2="//@r.4 //@r.0"
+      idContext="c4">
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point8"/>
+    <location
+        xsi:type="gemRBAC:Polygon"
+        idLocation="polygon5">
+      <segment
+          idLocation="polyline2">
+        <start
+            idLocation="point10"/>
+        <end
+            idLocation="point3"/>
+      </segment>
+      <segment
+          idLocation="polyline14">
+        <start
+            idLocation="point43"/>
+        <end
+            idLocation="point44"/>
+      </segment>
+      <segment
+          idLocation="polyline15">
+        <start
+            idLocation="point45"/>
+        <end
+            idLocation="point46"/>
+      </segment>
+    </location>
+    <location
+        xsi:type="gemRBAC:Circle"
+        idLocation="circle2">
+      <center
+          idLocation="point2"/>
+    </location>
+    <location
+        xsi:type="gemRBAC:Polygon"
+        idLocation="polygon4">
+      <segment
+          idLocation="polyline16">
+        <start
+            idLocation="point37"/>
+        <end
+            idLocation="point38"/>
+      </segment>
+      <segment
+          idLocation="polyline17">
+        <start
+            idLocation="point39"/>
+        <end
+            idLocation="point40"/>
+      </segment>
+      <segment
+          idLocation="polyline18">
+        <start
+            idLocation="point41"/>
+        <end
+            idLocation="point42"/>
+      </segment>
+    </location>
+    <location
+        xsi:type="gemRBAC:Circle"
+        idLocation="circle6">
+      <center
+          idLocation="point7"/>
+    </location>
+  </c>
+  <c idContext="c5">
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point14"/>
+  </c>
+  <c idContext="c6">
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point15"/>
+  </c>
+  <c idContext="c7">
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point16"/>
+  </c>
+  <c idContext="c8">
+    <location
+        xsi:type="gemRBAC:Point"
+        idLocation="point18"/>
+  </c>
+  <p idPermission="p1"
+      roles="//@r.4 //@r.0 //@r.1 //@r.3"
+      operations="//@op.1"
+      object="obj1"
+      logPermission="//@log.1"
+      permissionContextAssignment="//@c.0 //@c.1 //@c.2 //@c.3"
+      permissionContextEnabling="//@c.1 //@c.2"/>
+  <p idPermission="p2"
+      roles="//@r.4 //@r.0 //@r.1 //@r.2 //@r.3"
+      operations="//@op.0 //@op.2 //@op.1"
+      object="obj1"
+      logPermission="//@log.0"
+      permissionContextAssignment="//@c.0 //@c.1 //@c.3"
+      permissionContextEnabling="//@c.1"
+      rolesE="//@r.4 //@r.1 //@r.3 //@r.0"/>
+  <r idRole="r1"
+      users="//@u.1 //@u.2 //@u.3"
+      sessionsE="//@s.1"
+      permissions="//@p.0 //@p.1"
+      userD="//@u.0"
+      roleContextEnabling="//@c.2 //@c.3"
+      logRole="//@log.1"
+      enabledPermissions="//@p.1"/>
+  <r idRole="r2"
+      users="//@u.0"
+      sessionsA="//@s.0"
+      sessionsE="//@s.1"
+      permissions="//@p.0 //@p.1"
+      userD="//@u.1 //@u.2"
+      roleContextAssignment="//@c.0 //@c.1 //@c.2"
+      roleContextEnabling="//@c.0 //@c.1 //@c.2"
+      logRole="//@log.0"
+      enabledPermissions="//@p.1"/>
+  <r idRole="r3"
+      users="//@u.0 //@u.2 //@u.3"
+      sessionsE="//@s.1"
+      permissions="//@p.1"
+      userD="//@u.1"
+      roleContextAssignment="//@c.0 //@c.3"
+      roleContextEnabling="//@c.0 //@c.1 //@c.2"/>
+  <r idRole="r4"
+      users="//@u.1 //@u.2 //@u.3"
+      sessionsE="//@s.1"
+      permissions="//@p.0 //@p.1"
+      userD="//@u.0"
+      roleContextAssignment="//@c.1 //@c.2"
+      roleContextEnabling="//@c.0 //@c.1"
+      enabledPermissions="//@p.1"/>
+  <r idRole="r5"
+      users="//@u.0 //@u.1 //@u.2"
+      sessionsE="//@s.1"
+      permissions="//@p.0 //@p.1"
+      roleContextAssignment="//@c.1 //@c.2 //@c.3"
+      roleContextEnabling="//@c.0 //@c.1 //@c.3"
+      enabledPermissions="//@p.1"/>
+  <s idSession="ses3"
+      activeRoles="//@r.1"
+      user="//@u.1"/>
+  <s idSession="sesu1"
+      enabledRoles="//@r.4 //@r.2 //@r.1 //@r.0 //@r.3"
+      user="//@u.0"/>
+  <u idUser="u1"
+      roles="//@r.4 //@r.2 //@r.1"
+      sessions="//@s.1"
+      delegatedRoles="//@r.0 //@r.3"
+      userLocation="//@c.4"
+      userLog="//@log.1"/>
+  <u idUser="u2"
+      roles="//@r.4 //@r.3 //@r.0"
+      sessions="//@s.0"
+      delegatedRoles="//@r.2 //@r.1"
+      userLocation="//@c.5"/>
+  <u idUser="u3"
+      roles="//@r.4 //@r.3 //@r.2 //@r.0"
+      delegatedRoles="//@r.1"
+      userLocation="//@c.6"/>
+  <u idUser="u4"
+      roles="//@r.3 //@r.2 //@r.0"
+      userLocation="//@c.7"/>
+  <log idLog="h2"
+      role="//@r.1"
+      permission="//@p.1"/>
+  <log idLog="2c0c4f50-a66d-473e-8403-4a2320d713d6"
+      role="//@r.0"
+      object="obj1"
+      operation="//@op.0"
+      permission="//@p.0"
+      user="//@u.0"/>
+  <dur idDuration="duration1"
+      reset="//@resetDuration.0"/>
+  <loc xsi:type="gemRBAC:Point"
+      idLocation="point1"/>
+  <currentDay
+      idRelativeTE="currentDay"
+      day="Wednesday"/>
+  <currentT
+      idAbsoluteTE="currentTime"
+      second="11"
+      minute="30"
+      hour="11"
+      day="11"
+      month="1"
+      year="2017"/>
+  <resetDuration
+      duration="//@dur.0"/>
+  <nextReset
+      idAbsoluteTE="tp2"/>
+  <nextReset
+      idAbsoluteTE="tp7"/>
+</gemRBAC:Root>

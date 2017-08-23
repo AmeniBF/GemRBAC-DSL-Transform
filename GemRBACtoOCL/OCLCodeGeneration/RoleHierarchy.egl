@@ -1,0 +1,13 @@
+[* Role Hierarchy *]
+[* list of role hierarchies *]
+[%for (hr in RHierarchies.hierarchy) { %] 
+var role =  Role.all.selectOne(r:Role|r.idRole="[%=hr.r.name%]");
+[* get the list of role juniors *]
+[%for (r in hr.roles) { %]
+var [%=r.name%] =  Role.all.selectOne(r:Role|r.idRole="[%=r.name%]");
+role.juniors.add([%=r.name%] );
+[% }%]
+[% }%]
+
+[* Save model *]
+instance.store(instance.modelFile);

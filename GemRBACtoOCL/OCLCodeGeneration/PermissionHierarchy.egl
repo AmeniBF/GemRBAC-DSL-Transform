@@ -1,0 +1,15 @@
+[* Permission Hierarchy *]
+[* list of permission hierarchies *]
+[%for (hp in PHierarchies.hierarchy) { %] 
+var permission =  Permission.all.selectOne(p:Permission|p.idPermission="[%=hp.p.name%]");
+[* get the list of permission juniors *]
+[%for (p in hp.permissions) { %]
+var [%=p.name%] =  Permission.all.selectOne(p:Permission|p.idPermission="[%=p.name%]");
+permission.juniors.add([%=p.name%] );
+[% }%]
+[% }%]
+
+
+
+[* Save model *]
+instance.store(instance.modelFile);

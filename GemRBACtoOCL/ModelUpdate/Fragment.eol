@@ -1,0 +1,24 @@
+//Role Hierarchy
+ 
+ 
+var role =  Role.all.selectOne(r:Role|r.idRole="r1");
+var r2 =  Role.all.selectOne(r:Role|r.idRole="r2");
+role.juniors.add(r2 );
+var r3 =  Role.all.selectOne(r:Role|r.idRole="r3");
+role.juniors.add(r3 );
+
+
+
+//Permission Hierarchy
+ 
+ 
+var permission =  Permission.all.selectOne(p:Permission|p.idPermission="p3");
+var p2 =  Permission.all.selectOne(p:Permission|p.idPermission="p2");
+permission.juniors.add(p2 );
+var p1 =  Permission.all.selectOne(p:Permission|p.idPermission="p1");
+permission.juniors.add(p1 );
+
+
+
+
+instance.store(instance.modelFile);

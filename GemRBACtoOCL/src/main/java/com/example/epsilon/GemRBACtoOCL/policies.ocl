@@ -1,0 +1,103 @@
+import ecore : 'http://www.eclipse.org/emf/2002/Ecore#/'
+import 'platform:/resource/GemRBACtoOCL/Metamodels/gemRBAC.ecore'
+package gemRBAC
+
+ 
+   context User
+   inv PL1:
+   let r1 : Role = Role.allInstances()
+	->select(m : Role | m.idRole = 'trainee')
+	->any(true) , r2 : Role = Role.allInstances()
+	->select(m : Role | m.idRole = 'participant')
+	->any(true) , 
+	roleSet : Set(Role) = self.roles
+	->union(self.delegatedRoles)
+	->asSet()
+    in roleSet
+	->includes(r1) implies roleSet
+	->includes(r2)
+   
+ 
+ 
+    
+  
+	
+	
+ 
+  	context Session
+
+	inv enabPrecedence:
+	let r1 : Role = Role.allInstances()
+	->select(a : Role | a.idRole = 'admin')
+	->any(true) , r2 : Role = Role.allInstances()
+	->select(a : Role | a.idRole = 'participant')
+	->any(true)
+   in self.enabledRoles
+	->includes(r1) implies Session.allInstances()
+	->exists(s : Session | s.activeRoles
+		->includes(r2))
+  
+   
+	
+	
+ 
+	
+	
+	
+	
+	
+	
+	
+	context Session
+
+	inv DSoDHistory: 
+      let conflictingRoles : Set(Role)  = self.activeRoles
+    ->select(r : Role | r.idRole = 'trainee'	 or r.idRole ='r2')->asSet()
+	in if conflictingRoles -> size()>1 then
+ 
+	
+ 
+ 
+ 
+	conflictingRoles-> forAll(r:Role| 
+	  let roleslog: Set (History) = conflictingRoles -> excluding(r) -> collect(r.logRole) -> select (log:History|  log.user = self.user)-> asSet(),
+	  objects: Set(Object) = roleslog -> collect (object)-> asSet(),
+	  rlog:  Set (History) =  r.logRole-> select (log:History|  log.user = self.user)-> asSet()
+	   in
+	   rlog -> collect  (object) -> intersection (objects) -> isEmpty())
+	   
+	   and
+	   
+	   let  
+     opBT : Set(Operation) = Operation.allInstances()->select(o : Operation | o.idOperation = 'create'	 or o.idOperation ='delete')->asSet() , 
+     
+     op : Set(Operation) = conflictingRoles -> collect (permissions.operations) -> asSet()
+     in  (opBT - op)
+	->notEmpty()
+
+    else true
+	endif 
+
+ 
+	
+	  context Role
+	  inv BoD:
+	  
+	  let 
+      boundedPermissions: Set (Permission)= self.permissions ->
+             select (p:Permission |  
+                 p.idPermission = 'p1' or 
+ 
+                 p.idPermission = 'p2' or 
+   p.idPermission = 'p3' )->asSet(),
+	  
+      boundedroles: Set (Role)= Role.allInstances()->
+             select (r:Role | r.permissions -> includesAll(boundedPermissions)),
+	
+	     subjectLog: Set (User)= self.logBOCurrentProcessInstance->collect(user)->asSet()
+              in   if subjectLog -> size() =1 then boundedroles -> forAll (r:Role | r<>self implies r.logBOCurrentProcessInstance -> isEmpty()) else true endif            
+	
+  
+	
+	
+ endpackage

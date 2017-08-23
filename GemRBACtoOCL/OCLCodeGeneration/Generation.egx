@@ -1,0 +1,43 @@
+rule FragmentRule
+	transform GemRBACDSL : GemRBACDSL {
+	// The EGL template to be invoked
+	template : "FragmentGeneration.egl"
+	// Output file
+	target :  "../ModelUpdate/Fragment.eol"
+}
+
+
+
+rule ConstraintRule
+	transform Policies : Policies {
+	// The EGL template to be invoked
+	template : "OCLGeneration.egl"
+	// Output file
+	target : "../src/main/java/com/example/epsilon/GemRBACtoOCL/policies.ocl"
+}
+
+
+rule ConstraintConfiguration
+	transform Policies : Policies {
+	// The EGL template to be invoked
+	template : "PoliciesConf.egl"
+	// Output file
+	target : "../src/main/java/com/example/epsilon/GemRBACtoOCL/policiesConfig.txt"
+}
+
+
+/*rule RoleHierarchy
+	transform RHierarchies : RHierarchies {
+	// The EGL template to be invoked
+	template : "RoleHierarchy.egl"
+	// Output file
+	target : "../ModelUpdate/Fragment.eol"
+}
+
+rule PermissionHierarchy
+	transform PHierarchies : PHierarchies {
+	// The EGL template to be invoked
+	template : "PermissionHierarchy.egl"
+	// Output file
+	target : "../ModelUpdate/Fragment.eol"
+}*/

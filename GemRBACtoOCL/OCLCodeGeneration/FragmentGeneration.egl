@@ -1,0 +1,35 @@
+[* Role Hierarchy *]
+[* list of role hierarchies *]
+//Role Hierarchy
+[%for (hierarchy in RHierarchies.all) { %] 
+[%for (hr in hierarchy .hierarchy) { %] 
+var role =  Role.all.selectOne(r:Role|r.idRole="[%=hr.r.name%]");
+[* get the list of role juniors *]
+[%for (r in hr.roles) { %]
+var [%=r.name%] =  Role.all.selectOne(r:Role|r.idRole="[%=r.name%]");
+role.juniors.add([%=r.name%] );
+[% }%]
+[% }%]
+[% }%]
+
+
+
+[* Permission Hierarchy *]
+[* list of permission hierarchies *]
+//Permission Hierarchy
+[%for (hierarchy in PHierarchies.all) { %] 
+[%for (hp in hierarchy.hierarchy) { %] 
+var permission =  Permission.all.selectOne(p:Permission|p.idPermission="[%=hp.p.name%]");
+[* get the list of permission juniors *]
+[%for (p in hp.permissions) { %]
+var [%=p.name%] =  Permission.all.selectOne(p:Permission|p.idPermission="[%=p.name%]");
+permission.juniors.add([%=p.name%] );
+[% }%]
+[% }%]
+[% }%]
+
+
+
+
+[* Save model *]
+instance.store(instance.modelFile);

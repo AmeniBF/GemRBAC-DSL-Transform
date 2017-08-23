@@ -1,0 +1,36 @@
+
+
+ [* Prerequisite Constraint *]
+ [* Prerequisite Role *]
+ [%for (p in PrereqRole.all) { %]
+   id: [%=p.name%]; 
+   type: PrereqRole;
+   roles: [%=p.r1.name%], [%=p.r2.name%];
+ 
+ [% }%]
+ 
+ [* Precedence and Dependency Constraints *]
+  [%for (p in PrecEnabling.all) { %] 
+  [* Precedence (without duration) *]
+   id: [%=p.name%]; 
+   type: Precedence;
+   roles: [%=p.r1.name%], [%=p.r2.name%];
+ [% }%]
+ 
+[* Dynamic Separation of Duty *]
+[%for (p in DynamicConflictingRoles.all)  {%]
+   id: [%=p.name%]; [* object DSoDCU*] 
+   [% if (p.obj <> null and  p.operations.isEmpty()) {%]type: DSoDobj;[% }%][% if (p.obj = null and not p.operations.isEmpty()) {%]type: DSoDop;[% }%]  [% if (p.obj <> null and not p.operations.isEmpty()) {%]type: DSoDhis;[% }%][% if (p.obj= null and  p.operations.isEmpty()) {%]type: DSoDCR;[%}%]
+   
+   roles: [%var roles = p.roles;var i=0; while (i<roles.size()-1 ) {%][%=roles.get(i).name%],[% i++;}%]  [%=roles.get(i).name%];
+   [% if (not  p.operations.isEmpty()) {%]  operations:  [%var operations = p.operations;var i=0; while (i<operations.size()-1 ) {%][%=operations.get(i).name%],[% i++;}%]  [%=operations.get(i).name%]; [% }%]
+    [% }%]
+    
+    
+    
+ [* BoD *]
+  [%for (p in BoD.all) { %] 
+   id: [%=p.name%];
+   type: [%=p.type%];
+   permissions: [%var permissions = p.permissions;var i=0; while (i<permissions.size()-1 ) {%][%=permissions.get(i).name%], [% i++;}%]  [%=permissions.get(i).name%];
+ [% }%]

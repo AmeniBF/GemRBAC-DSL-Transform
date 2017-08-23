@@ -1,0 +1,22 @@
+users: William, Paula;
+roles: trainee, participant, admin, r1, r2, r3;
+role-hierarchy: r1:{r2,r3};    
+permissions:add_casualty , modify_casualty , delete_casualty, p1, p2, p3;
+permission-hierarchy: p3:{p2,p1} ;  
+operations: create,read,update,delete;     
+geofences: geo1, geo2;       
+
+policies: 
+PL1: assign-role trainee prerequisite participant; 
+//PL2: assign-role r1 prerequisite r2; 
+//PL2: assign-permission modify_casualty prerequisite add_casualty;
+//PL3: maxRoles-User= 2;
+//test: maxRoles-User= 3 only-for-user Paula;
+enab: enable admin if-active participant;
+BoD: bounded-permissions p1,p2,p3 subject-BoD;
+//RH: trigger-role-hierarchy admin user-centric, permission-centric;
+//PH: trigger-permission-hierarchy add_casualty;
+DSoDHistory: conflicting-roles-activation trainee,r2 depending-on-business-task-list create, delete on-same-object;
+
+//PL3: role-context participant enable  @time [01 Jan 2016 , 10 Mar 2016];    
+//PL4: role-context  admin enable @location geofence geo2 @time from 12:00:00 to 19:00:00 && @location geofence geo1 @time from 22:00:00 to 23:55:00;

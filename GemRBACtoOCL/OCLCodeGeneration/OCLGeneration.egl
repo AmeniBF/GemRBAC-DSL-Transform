@@ -1,0 +1,289 @@
+import ecore : 'http://www.eclipse.org/emf/2002/Ecore#/'
+import 'platform:/resource/GemRBAC/model/gemRBAC.ecore'
+package gemRBAC
+
+ [* Prerequisite Constraint *]
+ [* Prerequisite Role *]
+ [%for (p in PrereqRole.all) { %] 
+   context User
+   inv [%=p.name%]:
+   let r1 : Role = Role.allInstances()
+	->select(m : Role | m.idRole = '[%=p.r1.name%]')
+	->any(true) , r2 : Role = Role.allInstances()
+	->select(m : Role | m.idRole = '[%=p.r2.name%]')
+	->any(true) , 
+	roleSet : Set(Role) = self.roles
+	->union(self.delegatedRoles)
+	->asSet()
+    in roleSet
+	->includes(r1) implies roleSet
+	->includes(r2)
+  [% }%]
+   
+ [* Prerequisite Permission *]
+ [%for (p in PrereqPermission.all) { %]  
+    context Role
+   	inv [%=p.name%]:
+    let p1 : Permission = Permission.allInstances()
+	->select(m : Permission | m.idPermission = '[%=p.p1.name%]')
+	->any(true) , p2 : Permission = Permission.allInstances()
+	->select(m : Permission | m.idPermission = '[%=p.p2.name%]')
+	->any(true)
+    in self.permissions
+	->includes(p1) implies self.permissions
+	->includes(p2)
+ [% }%]
+ 
+ [* Cardinality Constraint *]
+ 
+ [* Role-to-user assignment (generic + specific) *]
+ [%for (p in CardRoletoUser.all) { %]  
+   context User
+	inv [%=p.name%]:
+	[% if (p.u<>null) {%]
+	 if self.idUser= '[%=p.u.name%]' then
+	 [% }%]
+	   let roleSet : Set(Role) = self.roles
+	      ->union(self.delegatedRoles)
+    	  ->asSet()
+       in roleSet ->size() <= [%=p.card%]
+    [% if (p.u<>null) {%]
+     else
+	   true
+   endif
+   [% }%]
+ [% }%]
+  [* Role activation *]
+  	[%for (p in CardActivation.all) { %] 
+  	context Session
+	inv [%=p.name%]:
+	self.activeRoles
+	->size() <= [%=p.card%]
+    [% }%]
+    
+  [*  Permission-to-role assignment (generic) *]  
+  	[%for (p in CardPermission.all) { %] 
+  	context Role
+
+	inv [%=p.name%]:
+	self.permissions
+	->size() <= [%=p.card%]
+	[% }%]
+	
+	
+  [* Precedence and Dependency Constraints *]
+  [%for (p in PrecEnabling.all) { %] 
+  [* Precedence (without duration) *]
+  	context Session
+
+	inv [%=p.name%]Precedence:
+	let r1 : Role = Role.allInstances()
+	->select(a : Role | a.idRole = '[%=p.r1.name%]')
+	->any(true) , r2 : Role = Role.allInstances()
+	->select(a : Role | a.idRole = '[%=p.r2.name%]')
+	->any(true)
+   in self.enabledRoles
+	->includes(r1) implies Session.allInstances()
+	->exists(s : Session | s.activeRoles
+		->includes(r2))
+   [* Dependency (without duration) *]
+   [% if (p.dep<>null) {%]	
+   [% p.dep<>null.println(); %]	
+   context Session
+
+	inv [%=p.name%]Dependency:
+    let r1 : Role = Role.allInstances()
+	->select(a : Role | a.idRole = 'r2')
+	->any(true) , r2 : Role = Role.allInstances()
+	->select(a : Role | a.idRole = 'r5')
+	->any(true)
+    in self.activeRoles
+	->includes(r1) implies Session.allInstances()
+	->exists(s : Session | s.activeRoles
+		->includes(r2))	
+   [% }%]
+   [% }%]  
+   [* Role Hierarchy *]
+   [%for (p in RoleHierarchy.all) { %] 
+    [* Role Hierarchy: user-centric *]
+    [% if (p.u<>null) {%]
+    context Role
+
+	inv [%=p.name%]UserCentric:
+	if (self.idRole = '[%=p.r1.name%]') then
+	self.juniors
+	->forAll(r : Role | r.users
+		->includesAll(self.users))
+   else
+	   true
+   endif
+   [% }%]
+    [* Role Hierarchy: Permission-centric *]
+    [% if (p.p<>null) {%]
+   context Role
+
+	inv  [%=p.name%]PermissionCentric:
+	if (self.idRole = '[%=p.r1.name%]') then
+	self.juniors
+	->forAll(r : Role | r.permissions
+		->includesAll(self.permissions))
+    else
+	   true
+   endif
+   [% }%]
+   [% }%]
+   [* Permission Hierarchy *]
+   [%for (p in PermissionHierarchy.all) { %] 
+   	 context Role
+
+	inv  [%=p.name%]:
+	
+	let p : Permission = Permission.allInstances()
+	->select(a : Permission | a.idPermission = '[%=p.p1.name%]')->any(true) in
+	if (self.permissions->includes(p)) then
+	self.juniors
+	->forAll(r : Role | r.permissions
+		->includes(p))
+	else
+	   true
+   endif
+   [% }%]
+   
+    [* Separation of Duty Constraint *]
+    [* Static Separation of Duty *]
+    [* SSoDCR*]
+    [%for (p in StaticConflictingRoles.all) { 
+    if (p.p == null) {%] 
+    [* SSoDCR user-centric*] 
+    context User
+
+	inv [%=p.name%]:
+    let conflictingRoles : Set(Role)  = Role.allInstances() 
+    ->select(r : Role | r.idRole = '[%=p.roles.first().name%]'[% var i : Integer = 1;
+	while (i< p.roles.size()) { %]
+	 or r.idRole ='[%=p.roles.at(i).name%]'[% i ++; }%]),
+	roleSet : Set(Role) = self.roles
+	->union(self.delegatedRoles)
+	->asSet()
+    in (roleSet - conflictingRoles)->size() <= 1
+	[* SSoDCR permission-centric*] 
+	 [% } else {%]
+	context Permission
+	inv [%=p.name%]:
+	if self.idPermission = '[%=p.p.name%]' then
+    let conflictingRoles : Set(Role)  = Role.allInstances() 
+    ->select(r : Role | r.idRole = '[%=p.roles.first().name%]'[% var i : Integer = 1;
+	while (i< p.roles.size()) { %]
+	 or r.idRole ='[%=p.roles.at(i).name%]'[% i ++; }%])->asSet()
+	in (self.roles - conflictingRoles)->size() <= 1
+	else true
+	endif  
+	[% }}%]
+	
+	
+	[* SSoDCU*] 
+	[* Dynamic Separation of Duty *]
+	[%for (p in DynamicConflictingRoles.all)  {%]
+	
+	
+	
+	
+	
+	
+	
+	context Session
+
+	inv [%=p.name%]: 
+      let conflictingRoles : Set(Role)  = self.activeRoles
+    ->select(r : Role | r.idRole = '[%=p.roles.first().name%]'[% var i : Integer = 1;
+	while (i< p.roles.size()) { %]
+	 or r.idRole ='[%=p.roles.at(i).name%]'[% i ++; }%])->asSet()
+	in if conflictingRoles -> size()>1 then
+	[* DSoDCR*] 
+	[%if (p.obj = null and p.operations.isEmpty()) {%]
+	false
+	[% }%]
+	
+	[* object DSoDCR*] 
+	[%if (p.obj <> null and p.operations.isEmpty()) {%]
+	conflictingRoles-> forAll(r:Role| 
+	  let roleslog: Set (History) = conflictingRoles -> excluding(r) -> collect(r.logRole) -> select (log:History|  log.user = self.user)-> asSet(),
+	  objects: Set(Object) = roleslog -> collect (object)-> asSet(),
+	  rlog:  Set (History) =  r.logRole-> select (log:History|  log.user = self.user)-> asSet()
+	   in
+	   rlog -> collect  (object) -> intersection (objects) -> isEmpty()
+	)
+
+	[% }%]
+	[* op DSoDCR*] 
+    [%if (p.obj == null and not p.operations.isEmpty()){%]	
+    let  
+     opBT : Set(Operation) = Operation.allInstances()->select(o : Operation | o.idOperation = '[%=p.operations.first().name%]'[% var i : Integer = 1;
+	while (i< p.operations.size()) { %]
+	 or o.idOperation ='[%=p.operations.at(i).name%]'[% i ++; }%])->asSet() , 
+     
+     op : Set(Operation) = conflictingRoles -> collect (permissions.operations) -> asSet()
+     in  (opBT - op)
+	->notEmpty()
+    
+    [% }%]
+    [* history DSoDCR*] 
+    [%if (p.obj <> null and not p.operations.isEmpty()) {%]
+	conflictingRoles-> forAll(r:Role| 
+	  let roleslog: Set (History) = conflictingRoles -> excluding(r) -> collect(r.logRole) -> select (log:History|  log.user = self.user)-> asSet(),
+	  objects: Set(Object) = roleslog -> collect (object)-> asSet(),
+	  rlog:  Set (History) =  r.logRole-> select (log:History|  log.user = self.user)-> asSet()
+	   in
+	   rlog -> collect  (object) -> intersection (objects) -> isEmpty())
+	   
+	   and
+	   
+	   let  
+     opBT : Set(Operation) = Operation.allInstances()->select(o : Operation | o.idOperation = '[%=p.operations.first().name%]'[% var i : Integer = 1;
+	while (i< p.operations.size()) { %]
+	 or o.idOperation ='[%=p.operations.at(i).name%]'[% i ++; }%])->asSet() , 
+     
+     op : Set(Operation) = conflictingRoles -> collect (permissions.operations) -> asSet()
+     in  (opBT - op)
+	->notEmpty()
+
+	[% }%]
+    else true
+	endif 
+    [% }%]
+	[* Binding of Duty Constraint *]
+
+	[%for (p in BoD.all) {%] 
+	
+	  context Role
+	  inv [%=p.name%]:
+	  
+	  let 
+      boundedPermissions: Set (Permission)= self.permissions ->
+             select (p:Permission | [%
+             var permissions = p.permissions;
+             var i=0;
+             while (i<permissions.size()-1 ) { %] 
+                 p.idPermission = '[%=permissions.get(i).name%]' or 
+             [% i++;}%]   p.idPermission = '[%=permissions.get(i).name%]' )->asSet(),
+	  
+      boundedroles: Set (Role)= Role.allInstances()->
+             select (r:Role | r.permissions -> includesAll(boundedPermissions)),
+            [* role-based*]
+	[% 
+	if (p.type.equals('role-BoD') ) {%] 
+            
+             roleLog: Set (History)= self.logBOCurrentProcessInstance in   if roleLog -> size()>=1 then boundedroles -> forAll (r:Role | r<>self implies r.getLogBOCurrentProcessInstance() -> isEmpty()) else true endif      
+             
+           
+	
+	[* subject-based*]
+	[% } else {  %]
+	
+	     subjectLog: Set (User)= self.logBOCurrentProcessInstance->collect(user)->asSet()
+              in   if subjectLog -> size() =1 then boundedroles -> forAll (r:Role | r<>self implies r.getLogBOCurrentProcessInstance() -> isEmpty()) else true endif            
+	
+	[% }}%]  
+	
+	
+ endpackage
